@@ -62,7 +62,6 @@ void loop() {
       Serial.print("Empty line: ");
       Serial.println(i);
     }
-
   }
 }
 
