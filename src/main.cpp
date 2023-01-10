@@ -14,7 +14,7 @@ bool loadConfigFile();
 
 Adafruit_SH1106 display(OLED_SDA, OLED_SCL);
 char WLAN_IP_STR[25];
-String display_lines[4];
+String display_lines[128]= {""};
 
 void setup()   {                
   Serial.begin(115200);
@@ -48,21 +48,22 @@ void loop() {
   display.display();
   
   // Start with Racoon Stuff :)
-  for (int i=0; i<= 3; i++)
+  for (int i=0; i < 128; i++)
   {
-    display.setTextColor(WHITE,BLACK);
-    display.fillRect(0,0,128,16,BLACK);
-    display.setCursor(0,0);
-    display.println(display_lines[i]);
-    display.display();
-    delay(3000);
+    if (!display_lines[i].isEmpty())
+    {
+      display.setTextColor(WHITE,BLACK);
+      display.fillRect(0,0,128,16,BLACK);
+      display.setCursor(0,0);
+      display.println(display_lines[i]);
+      display.display();
+      delay(3000);
+    } else {
+      Serial.print("Empty line: ");
+      Serial.println(i);
+    }
+
   }
-  display.setTextColor(WHITE,BLACK);
-    display.fillRect(0,0,128,16,BLACK);
-    display.setCursor(0,0);
-    display.println(display_lines[3]);
-    display.display();
-    delay(3000);
 }
 
 bool loadConfigFile()
